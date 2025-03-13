@@ -1,29 +1,37 @@
-ORG 0x7C00      ; BIOS loads boot sector here
-USE16         ; 16-bit real mode
+;----------------------------------------------------------------
+use16                       ; 16-bit real mode                  |
+org 0x7c00                  ; BIOS loads boot sector here       |
+KERNEL_OFFSET equ 0x1000    ;                                   |
+;----------------------------------------------------------------
 
-start:
-    ; Print "Booting..."
-    mov si, msg
-    call print_string
+;----------------------------------------------------------------
+; Set up the screen                                             |
+mov ah, 0x00  ; Clear screen                                    |               
+mov al, 0x03  ; Set video mode to 3                             |
+int 0x10      ; Run graphics interrupt                          |
+;----------------------------------------------------------------
 
-    ; Hang (loop forever)
-    jmp $
+mov [boot_disk], dl 
 
-print_string:
-    mov ah, 0x0E    ; BIOS Teletype function
-.loop:
-    lodsb           ; Load character from SI into AL
-    or al, al       ; Check if null terminator
-    jz done
-    int 0x10        ; Print character
-    jmp .loop
-done:
-    ret
+load_kernel:
+   mov bx, KERNEL_OFFSET
+   mov dh, 15
+   mov dl, [boot_disk]
 
-msg db "Booting Twice...", 0
+   mov ah, 0x02
+   mov al, dh
+   mov ch, 0x00
+   mov dh, 0x00
+   mov cl, 0x02
+   int 0x13
+   jmp KERNEL_OFFSET
+jmp $
 
-; Fill the rest of the sector with zeros until offset 0x1FE
-times 510-($-$$) db 0  
 
-; Boot signature (BIOS requires this)
-dw 0xAA55  
+boot_disk: db 0
+
+;----------------------------------------------------------------
+; Bootale requirement                                           |
+times 510-($-$$) db 0   ; Fill with zeros until offset 0x1FE    |
+dw 0xaa55               ; Boot signature                        |                                      
+;----------------------------------------------------------------
