@@ -11,24 +11,28 @@ mov al, 0x03  ; Set video mode to 3                             |
 int 0x10      ; Run graphics interrupt                          |
 ;----------------------------------------------------------------
 
-mov [boot_disk], dl 
+;----------------------------------------------------------------
+; Load kernel                                                   |
+load_kernel:               ;                                    |
+   mov [boot_disk], dl     ;                                    |
+   mov bx, KERNEL_OFFSET   ;                                    |
+   mov dh, 15              ;                                    |
+   mov dl, [boot_disk]     ;                                    |
+                           ;                                    |
+   mov ah, 0x02            ;                                    |
+   mov al, dh              ;                                    |
+   mov ch, 0x00            ;                                    |
+   mov dh, 0x00            ;                                    |
+   mov cl, 0x02            ;                                    |
+   int 0x13                ;                                    |
+   jmp KERNEL_OFFSET       ;                                    |
+jmp $                      ;                                    |
+;----------------------------------------------------------------
 
-load_kernel:
-   mov bx, KERNEL_OFFSET
-   mov dh, 15
-   mov dl, [boot_disk]
-
-   mov ah, 0x02
-   mov al, dh
-   mov ch, 0x00
-   mov dh, 0x00
-   mov cl, 0x02
-   int 0x13
-   jmp KERNEL_OFFSET
-jmp $
-
-
-boot_disk: db 0
+;----------------------------------------------------------------
+; Define variables                                              |
+boot_disk: db 0      ;                                          |
+;----------------------------------------------------------------
 
 ;----------------------------------------------------------------
 ; Bootale requirement                                           |
