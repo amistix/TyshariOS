@@ -1,25 +1,30 @@
 # OS? 
 It is my first attempt to create OS without any knowledge in that sphere:)
 # How to check it out?
-## On Linux:
 ### Download TyshariOS:
 ```shell
 git clone https://github.com/amistix/TyshariOS.git ; cd TyshariOS
 ```
 ### Install requared tools
-On Ubuntu/Debian:
+## 🧰 Requirements
+
+You need a full cross-compilation toolchain for `x86_64-elf`:
+
+- `x86_64-elf-gcc`  (compiler)
+- `x86_64-elf-ld`   (linker)
+- `x86_64-elf-as`   (assembler, usually included)
+- `nasm` (for .asm files)
+- `grub-mkrescue` (for ISO creation)
+- `qemu` (to run the OS)
+- `make`
+
+### Build OS:
+
 ```shell
-sudo apt install gcc nasm qemu
+make build-x86_64
 ```
-On Fedora/RHEL/CentOS:
+Afterwards, you'll get your iso file here: `dist/kernel.iso`.
+To launch it just use qemu:
 ```shell
-sudo dnf install gcc nasm qemu 
-```
-On Arch:
-```shell
-sudo pacman -S gcc nasm qemu-full
-```
-### Run qemu
-```shell
-make run
+qemu-system-x86_64 -cdrom dist/x86_64/kernel.iso
 ```
