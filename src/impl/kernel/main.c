@@ -59,6 +59,7 @@ void get_key() {
                 case 0x31: print_char('n'); break;
                 case 0x32: print_char('m'); break;
                 case 0x39: print_char(' '); break;
+                case 0x0E: clear_char()   ; break;
                 case 0x1C: enter_command(); break;
             }
 

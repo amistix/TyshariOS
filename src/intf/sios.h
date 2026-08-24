@@ -27,6 +27,7 @@ static inline void outb(uint16_t port, uint8_t val);
 void move_cursor(uint8_t row, uint8_t col);
 
 void clear_screen();
+void clear_char();
 void print_newline();
 void print_char(char character);
 void print_str(char* string);

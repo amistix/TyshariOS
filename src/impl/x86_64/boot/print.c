@@ -30,6 +30,21 @@ void move_cursor(uint8_t row, uint8_t col) {
     outb(CURSOR_PORT_DATA, position & 0xFF);
 }
 
+void clear_char() {
+    if (col == 0) {
+        return;
+    }
+
+    col--;
+
+    buffer[col + NUM_COLS * row] = (struct Char) {
+        character: ' ',
+        color: color,
+    };
+
+    move_cursor(row, col);
+}
+
 void clear_row(size_t row) {
     struct Char empty = (struct Char) {
         character: ' ',
@@ -62,7 +77,7 @@ void print_newline() {
         }
     }
 
-    clear_row(NUM_COLS - 1);
+    clear_row(NUM_ROWS - 1);
     move_cursor(row, col);
 }
 
@@ -72,7 +87,7 @@ void print_char(char character) {
         return;
     }
 
-    if (col > NUM_COLS) {
+    if (col >= NUM_COLS) {
         print_newline();
     }
 
