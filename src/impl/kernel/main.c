@@ -67,9 +67,9 @@ void get_key() {
 
 void kernel_main() {
     clear_screen();
-    set_color(COLOR_YELLOW, COLOR_BLACK);
+    set_color(COLOR_WHITE, COLOR_BLACK);
 
-    print_str("Welcome to our new brand world!");
+    print_str("Welcome to our Brand New World!");
 
     enter_command();
     while (true){
