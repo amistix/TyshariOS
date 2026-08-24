@@ -1,2 +1,7 @@
-*.img *.bin *.iso
-build/ dist/ .vscode/
+*.img
+*.bin
+*.iso
+
+build/
+dist/
+.vscode/
