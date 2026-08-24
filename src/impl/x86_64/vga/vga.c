@@ -12,10 +12,6 @@ struct Char {
     uint8_t color;
 };
 
-static inline void outb(uint16_t port, uint8_t val) {
-    __asm__ volatile ( "outb %0, %1" : : "a"(val), "Nd"(port) );
-}
-
 void vga_move_cursor(size_t row, size_t col)
 {
     uint16_t position = row * NUM_COLS + col;
@@ -29,13 +25,8 @@ void vga_move_cursor(size_t row, size_t col)
 
 void vga_clear_row(size_t row)
 {
-    struct Char empty = (struct Char) {
-        character: ' ',
-        color: color,
-    };
-
     for (size_t col = 0; col < NUM_COLS; col++) {
-        buffer[col + NUM_COLS * row] = empty;
+        buffer[col + NUM_COLS * row].character = ' ';
     }
 }
 

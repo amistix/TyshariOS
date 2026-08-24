@@ -1,4 +1,5 @@
 #include "terminal.h"
+#include "vga.h"
 
 static size_t current_row = 0;
 static size_t current_col = 0;

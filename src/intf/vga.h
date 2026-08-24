@@ -1,6 +1,9 @@
 #pragma once
+#include <io.h>
 
-#include "sios.h"
+const static size_t NUM_COLS = 80;
+const static size_t NUM_ROWS = 25;
+
 
 void vga_init(void);
 

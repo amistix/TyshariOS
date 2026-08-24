@@ -1,14 +1,5 @@
 #include "terminal.h"
-
-unsigned char port_byte_in(unsigned short port) {
-    unsigned char result;
-    __asm__("in %%dx, %%al" : "=a" (result) : "d" (port));
-    return result;
-}
-
-void port_byte_out(unsigned short port, unsigned char data) {
-    __asm__("out %%al, %%dx" : : "a" (data), "d" (port));
-}
+#include "io.h"
 
 void enter_command()
 {
@@ -17,10 +8,10 @@ void enter_command()
 }
 
 void get_key() {
-    int status = port_byte_in(0x64);
+    int status = inb(0x64);
         if (status & 0x01)
         {
-            uint8_t scan_code = port_byte_in(0x60);
+            uint8_t scan_code = inb(0x60);
             switch (scan_code) {
                 case 0x02: terminal_putchar('1'); break;
                 case 0x03: terminal_putchar('2'); break;
@@ -68,7 +59,7 @@ void get_key() {
 
 void kernel_main() {
     terminal_clear();
-    terminal_set_color(COLOR_WHITE, COLOR_BLACK);
+    terminal_set_color(TERMINAL_WHITE, TERMINAL_BLACK);
 
     terminal_write("Welcome to our Brand New World!");
 
