@@ -23,12 +23,9 @@ enum {
 	COLOR_WHITE = 15,
 };
 
-static inline void outb(uint16_t port, uint8_t val);
-void move_cursor(uint8_t row, uint8_t col);
+static uint8_t color = COLOR_WHITE | ( COLOR_BLACK << 4);
 
-void clear_screen();
-void clear_char();
-void print_newline();
-void print_char(char character);
-void print_str(char* string);
-void set_color(uint8_t foreground, uint8_t background);
+const static size_t NUM_COLS = 80;
+const static size_t NUM_ROWS = 25;
+
+static inline void outb(uint16_t port, uint8_t val);
