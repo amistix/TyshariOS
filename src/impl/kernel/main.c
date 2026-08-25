@@ -8,6 +8,10 @@ void enter_command()
 }
 
 void get_key() {
+    while (!(inb(0x64) & 0x01)) {
+        __asm__ volatile ("pause");
+    }
+
     int status = inb(0x64);
         if (status & 0x01)
         {
@@ -64,6 +68,8 @@ void kernel_main() {
     terminal_write("Welcome to our Brand New World!");
 
     enter_command();
+
+
     while (true){
         get_key();
     }
